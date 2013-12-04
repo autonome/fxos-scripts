@@ -1,0 +1,9 @@
+#!/bin/bash
+
+adb shell stop b2g
+sleep 5
+adb push ~/Dropbox/b2g/nexus4-backup/local /data/local
+adb push ~/Dropbox/b2g/nexus4-backup/b2g /data/b2g
+adb push ~/Dropbox/b2g/nexus4-backup/sdcard /sdcard
+adb shell start b2g
+
