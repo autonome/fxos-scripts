@@ -1,9 +1,25 @@
 #!/bin/bash
 
+backupDir=~/Dropbox/b2g/nexus4-backup
+
 adb shell stop b2g
 sleep 5
-adb push ~/Dropbox/b2g/nexus4-backup/local /data/local
-adb push ~/Dropbox/b2g/nexus4-backup/b2g /data/b2g
-adb push ~/Dropbox/b2g/nexus4-backup/sdcard /sdcard
+
+adb push "$backupDir/wpa_supplicant.conf" /data/misc/wifi/wpa_supplicant.conf
+adb shell chown wifi:wifi /data/misc/wifi/wpa_supplicant.conf
+
+adb push "$backupDir/local/storage" /data/local/storage
+adb push "$backupDir/local/OfflineCache" /data/local/OfflineCache
+adb push "$backupDir/local/permissions.sqlite" /data/local/permissions.sqlite
+adb push "$backupDir/local/ua-update.json" /data/local/ua-update.json
+
+for f in `ls "$backupDir/local/webapps"`; do
+  adb push "$backupDir/local/webapps/$f" "/data/local/webapps/$f" 
+done
+
+# remove any existing profiles (probably because you just flashed, so there's an empty one) 
+adb shell rm -rf /data/b2g/mozilla
+adb push "$backupDir/b2g" /data/b2g
+adb push "$backupDir/sdcard" /sdcard
 adb shell start b2g
 

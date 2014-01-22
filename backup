@@ -1,8 +1,26 @@
 #!/bin/bash
 
+backupDir=~/Dropbox/b2g/nexus4-backup
+oldBackupDir=~/Dropbox/b2g/nexus4-backup.bak
+
 adb shell stop b2g
-adb pull /data/local ~/Dropbox/b2g/nexus4-backup/local
-adb pull /data/b2g ~/Dropbox/b2g/nexus4-backup/b2g
-adb pull /sdcard/ ~/Dropbox/b2g/nexus4-backup/sdcard
+rm -rf oldBackupDir
+mv backupDir oldBackupDir
+mkdir backupDir
+adb pull /data/misc/wifi/wpa_supplicant.conf "$backupDir/wpa_supplicant.conf"
+adb pull /data/local/storage "$backupDir/local/"
+adb pull /data/local/OfflineCache "$backupDir/local/"
+adb pull /data/local/permissions.sqlite "$backupDir/local/"
+adb pull /data/local/ua-update.json "$backupDir/local/"
+
+mkdir "$backupDir/local/webapps"
+
+adb shell 'ls /data/local/webapps' | grep -v 'gaiamobile.org\|marketplace\|{8e3836c7-70af-4f76-b25b-19e1d3b33f1c}\|{93e9343d-22c8-4cfa-b5e3-ef7f709c8151}' | while read -r line ; do
+  file=`echo -e $line | tr -d "\r\n"`; # osx fix! ghhrrr :@ :(
+  adb pull "/data/local/webapps/$file" "$backupDir/local/webapps/"
+done
+
+adb pull /data/b2g "$backupDir/b2g"
+adb pull /sdcard/ "$backupDir/sdcard"
 adb shell start b2g
 
