@@ -1,7 +1,14 @@
 #!/bin/bash
 
-backupDir=~/Dropbox/b2g/nexus4-backup
-oldBackupDir=~/Dropbox/b2g/nexus4-backup.bak
+if [ -z ${BACKUP_PATH+x} ]
+then
+    echo "BACKUP_PATH set to ${BACKUP_PATH}"
+    backupDir = BACKUP_PATH
+    oldBackupDir = BACKUP_PATH + '.bak'
+else
+    backupDir = ~/Dropbox/b2g/nexus4-backup
+    oldBackupDir = ~/Dropbox/b2g/nexus4-backup.bak
+fi
 
 adb shell stop b2g
 rm -rf oldBackupDir
