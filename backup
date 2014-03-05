@@ -4,9 +4,9 @@ backupDir=~/Dropbox/b2g/nexus4-backup
 oldBackupDir=~/Dropbox/b2g/nexus4-backup.bak
 
 adb shell stop b2g
-rm -rf oldBackupDir
-mv backupDir oldBackupDir
-mkdir backupDir
+rm -rf $oldBackupDir
+mv $backupDir $oldBackupDir
+mkdir $backupDir
 adb pull /data/misc/wifi/wpa_supplicant.conf "$backupDir/wpa_supplicant.conf"
 adb pull /data/local/storage "$backupDir/local/"
 adb pull /data/local/OfflineCache "$backupDir/local/"
