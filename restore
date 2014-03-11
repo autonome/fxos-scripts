@@ -3,9 +3,9 @@
 if [ ${BACKUP_PATH+x} ]
 then
     echo "BACKUP_PATH set to ${BACKUP_PATH}"
-    backupDir = BACKUP_PATH
+    backupDir=BACKUP_PATH
 else
-    backupDir = ~/Dropbox/b2g/nexus4-backup
+    backupDir=~/Dropbox/b2g/nexus4-backup
 fi
 
 adb shell stop b2g
