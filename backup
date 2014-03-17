@@ -24,7 +24,7 @@ mkdir "$backupDir/local/webapps"
 
 adb shell 'ls /data/local/webapps' | grep -v 'gaiamobile.org\|marketplace\|{8e3836c7-70af-4f76-b25b-19e1d3b33f1c}\|{93e9343d-22c8-4cfa-b5e3-ef7f709c8151}' | while read -r line ; do
   file=`echo -e $line | tr -d "\r\n"`; # osx fix! ghhrrr :@ :(
-  adb pull "/data/local/webapps/$file" "$backupDir/local/webapps/"
+  adb pull "/data/local/webapps/$file" "$backupDir/local/webapps/$file"
 done
 
 adb pull /data/b2g "$backupDir/b2g"
